@@ -1,5 +1,4 @@
 # postfix
-
 Postfix mail server container.
 
 
@@ -11,7 +10,7 @@ Postfix mail server container.
 
 Command for running postfix docker container:
 ```
-docker run -it -p 25:25 -p 587:587 \
+docker run -it -e MYHOSTNAME=localhost -p 25:25 -p 587:587 \
     -v $(pwd)/tmp/postfix:/var/spool/postfix \
     -v $(pwd)/tmp/mail:/var/spool/mail \
     -v $(pwd)/tmp/log:/var/log/postfix postfix
