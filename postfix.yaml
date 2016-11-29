@@ -1,0 +1,37 @@
+document: modulemd
+version: 1
+data:
+    summary: A first try of a postfix module
+    description: An early-stage module of postfix - a postfix is a Mail Transport Agent (MTA)
+    license:
+        module: [ MIT ]
+    dependencies:
+        buildrequires:
+            base-runtime: master
+        requires:
+            base-runtime: master
+    references:
+        community: https://fedoraproject.org/wiki/Modularity
+        documentation: https://github.com/container-images/postfix
+        tracker: https://github.com/container-images/postfix
+    profiles:
+        default:
+            rpms:
+                - postfix
+        utils:
+            rpms:
+                - postfix
+                - findutils
+    api:
+        rpms:
+            - postfix
+            - findutils
+    components:
+        rpms:
+            # TBD: more packages
+            postfix:
+                rationale: Provides API for this module.
+                ref: f25
+            proftpd-utils:
+                rationale: Provides utilities like ftpasswd to manage users.
+                ref: f25

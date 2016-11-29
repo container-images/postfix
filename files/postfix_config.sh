@@ -18,7 +18,7 @@ modify_master_cf(){
     MASTER="/etc/postfix/master.cf"
     grep 'docker_smtp' "$MASTER"
     if [[ $? -eq 1 ]]; then
-        sed -i 's/^smtp\(\s*\)inet\(.*\)/docker_smtp\1inet\2/g' "$MASTER"
+        sed -i 's/^smtp\(\s*\)inet\(.*\)/docker_smtp\1inet  n\ty\tn\t-\t-\tsmtpd/g' "$MASTER"
     fi
 }
 
