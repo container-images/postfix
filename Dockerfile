@@ -26,17 +26,6 @@ EXPOSE 10025
 EXPOSE 10587
 EXPOSE 10465
 
-# In order to drop the root user, we have to make some directories
-# world writable as OpenShift default security model is to run the container
-# under random UID
-RUN chmod -R a+rwx /var/spool/mail && \
-    chmod -R a+rwx /var/spool/postfix && \
-    chmod -R a+rwx /var/log && \
-    chown -R 89:0 /var/spool && \
-    chown -R 89:0 /var/log && \
-    chmod -R 755 /etc/postfix && \
-    chmod 644 /etc/postfix/*.cf
-
 # Postfix UID based from Fedora
 # USER 89
 
