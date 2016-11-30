@@ -42,6 +42,5 @@ RUN chmod -R a+rwx /var/spool/mail && \
 
 VOLUME ['/var/spool/postfix']
 VOLUME ['/var/spool/mail']
-VOLUME ['/var/log']
 
 CMD ["/files/start.sh"]
