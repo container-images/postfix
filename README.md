@@ -6,18 +6,31 @@ Postfix mail server container.
 
 ```docker build --tag=postfix .```
 
-## How to use the container
+## How to use the container over standard 25 port
 
 Command for running postfix docker container:
 ```
 docker run -it -e MYHOSTNAME=localhost \
-    -p 25:10025 -p 587:10587 \
+    -p 25:10025\
     -v $(pwd)/tmp/postfix:/var/spool/postfix \
     -v $(pwd)/tmp/mail:/var/spool/mail postfix
 ```
 
-## How to test the postfix mail server
+## How to use the container over standard TLS
 
+Docker file for TLS port is Dockerfile.TLS.
+
+Before you run postfix container store certificates needed for Postfix
+container into proper directory. In this case ```$(pwd)/certs```.
+Command for running postfix docker container:
+```
+docker run -it -e MYHOSTNAME=localhost \
+    -p 25:10025 \
+    -v $(pwd)/certs:/var/certs
+    postfix
+```
+
+## How to test the postfix mail server
 
 Commands for testing Postfix docker container:
 
@@ -37,4 +50,16 @@ Hi, Testing message
 regards
 Docker
 .
+```
+
+## How to test the postfix mail server with TLS
+
+Command for testing Postfix docker container with
+enabled TLS is ```openssl```.
+
+Telnet has not to be used because of all
+communication is encrypted from the beginning.
+
+```
+openssl s_client -starttls smtp -crlf -connect localhost:25
 ```

@@ -11,7 +11,7 @@ FROM fedora:24
 # Additional packages
 #  * findutils are needed in case fedora:24 is loaded from docker.io.
 
-RUN dnf install -y --setopt=tsflags=nodocs postfix findutils && \
+RUN dnf install -y --setopt=tsflags=nodocs postfix openssl-libs findutils && \
     dnf -y clean all
 
 MAINTAINER "Petr Hracek" <phracek@redhat.com>
@@ -20,16 +20,16 @@ ENV POSTFIX_SMTP_PORT=10025
 
 ADD files /files
 
-RUN /files/postfix_config.sh
+RUN /files/postfix_config_tls.sh
 
 EXPOSE 10025
-EXPOSE 10587
-EXPOSE 10465
 
 # Postfix UID based from Fedora
 # USER 89
 
-VOLUME ['/var/spool/postfix']
-VOLUME ['/var/spool/mail']
+VOLUME ["/var/spool/postfix"]
+VOLUME ["/var/spool/mail"]
+VOLUME ["/var/log"]
+VOLUME ["/var/certs"]
 
-CMD ["/files/start.sh"]
+CMD ["/files/start_tls.sh"]
