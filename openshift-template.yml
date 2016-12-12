@@ -2,10 +2,10 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: postfix-container
+  name: postfix
   annotations:
-    description: First try to create a postfix container
-    tags: ftp
+    description: postfix with dovecot as IMAP server
+    tags: imap-server
 labels:
   template: postfix
   group: postfix
@@ -14,18 +14,18 @@ objects:
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: "postfix-container"
+    name: "postfix-dovecot-container"
   spec:
-    dockerImageRepository: "phracek/postfix-container"
+    dockerImageRepository: "phracek/postfix"
   tags:
     - name: "latest"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "postfix-container"
+    name: "postfix"
   spec:
     selector:
-      name: "postfix-container"
+      name: "postfix"
     strategy:
       type: "Rolling"
     triggers:
@@ -33,20 +33,20 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - "postfix-container"
+            - "postfix"
           from:
             kind: "ImageStreamTag"
-            name: "postfix-container:latest"
+            name: "postfix:latest"
     replicas: 1
     template:
       metadata:
-        name: "postfix-container"
+        name: "postfix"
         labels:
-          name: "postfix-container"
+          name: "postfix"
       spec:
         containers:
-          - name: "postfix-container"
-            image: "postfix-container:latest"
+          - name: "postfix"
+            image: "postfix:latest"
             ports:
               - containerPort: 10025
               - containerPort: 10587
