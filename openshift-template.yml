@@ -22,10 +22,10 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "postfix"
+    name: "postfix-dovecot-container"
   spec:
     selector:
-      name: "postfix"
+      name: "postfix-dovecot-container"
     strategy:
       type: "Rolling"
     triggers:
@@ -33,19 +33,19 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - "postfix"
+            - "postfix-dovecot-container"
           from:
             kind: "ImageStreamTag"
             name: "postfix:latest"
     replicas: 1
     template:
       metadata:
-        name: "postfix"
+        name: "postfix-dovecot-container"
         labels:
-          name: "postfix"
+          name: "postfix-dovecot-container"
       spec:
         containers:
-          - name: "postfix"
+          - name: "postfix-dovecot-container"
             image: "postfix:latest"
             ports:
               - containerPort: 10025
@@ -53,14 +53,18 @@ objects:
               - containerPort: 10465
             volumeMounts:
               - mountPath: /var/spool/postfix
-                name: postfix
+                name: spool-postfix
               - mountPath: /var/spool/mail
-                name: mail
+                name: spool-mail
               - mountPath: /var/log
                 name: log
         volumes:
         #  - name: var
         #    emptyDir:
         #      medium: Memory
-          - name: data
+          - name: spool-postfix
+            emptyDir: {}
+          - name: spool-mail
+            emptyDir: {}
+          - name: log
             emptyDir: {}
