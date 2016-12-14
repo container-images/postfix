@@ -19,7 +19,7 @@ if [[ -z ${MYHOSTNAME} ]]; then
     MYHOSTNAME=localhost
 fi
 
-source /files/common_postfix.sh
+source /files/common.sh
 
 modify_etc_services
 modify_main_cf

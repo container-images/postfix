@@ -26,7 +26,7 @@ if [[ -z ${MYHOSTNAME} ]]; then
     MYHOSTNAME=localhost
 fi
 
-source /files/common_postfix.sh
+source /files/common.sh
 
 mkdir -p /var/certs
 chown root:root /var/certs
