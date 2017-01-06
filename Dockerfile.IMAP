@@ -22,7 +22,7 @@ ENV POSTFIX_SMTP_PORT=10025 POSTFIX_IMAP_PORT=10143 POSTFIX_SUBM_PORT=10587
 
 ADD files /files
 
-RUN /files/postfix_config_imap.sh
+RUN /files/imap_config.sh
 
 EXPOSE 10025
 EXPOSE 10143
@@ -36,4 +36,4 @@ VOLUME ["/var/spool/mail"]
 VOLUME ["/var/log"]
 VOLUME ["/var/mail"]
 
-CMD ["/files/start_imap.sh"]
+CMD ["/files/imap_postfix.sh"]

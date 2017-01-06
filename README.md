@@ -1,6 +1,14 @@
 # postfix
 Postfix mail server container.
 
+## Summary
+
+- Dockerfile.DOVECOT - build container image with dovecot w/o postfix.
+- Dockerfile.POSTFIX - build container image with postfix w/o dovecot.
+- Dockerfile.IMAP - build container image with dovecot and postfix installed. Full IMAP server.
+- Dockerfile.TLS - build container image with postfix TLS enabled w/o dovecot.
+- imap-template.yml - Template for OpenShift to start IMAP server with two containers (postfix and dovecot)
+
 
 ## How to build the container on 25 port
 

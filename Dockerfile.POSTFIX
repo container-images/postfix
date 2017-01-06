@@ -13,7 +13,7 @@ FROM fedora:24
 
 RUN dnf install -y --setopt=tsflags=nodocs \
                  postfix findutils openssl-libs \
-                 dovecot passwd shadow-utils && \
+                 passwd shadow-utils && \
     dnf -y clean all
 
 MAINTAINER "Petr Hracek" <phracek@redhat.com>
