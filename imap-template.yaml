@@ -1,0 +1,90 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: imap-mail-server
+  annotations:
+    description: postfix and dovect as IMAP server
+    tags: imap-mail-server
+labels:
+  template: imap-mail-server
+  group: imap-mail-server
+objects:
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: postfix_imap
+  spec:
+    dockerImageRepository: postfix_imap
+  tags:
+    - name: latest
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: dovecot_imap
+  spec:
+    dockerImageRepository: dovecot_imap
+  tags:
+    - name: latest
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: postfix-imap
+  spec:
+    selector:
+      name: postfix-imap
+    strategy:
+      type: Rolling
+    triggers:
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - postfix-imap
+          from:
+            kind: ImageStreamTag
+            name: postfix_imap:latest
+    replicas: 1
+    template:
+      metadata:
+        name: postfix-imap
+        labels:
+          name: postfix-imap
+      spec:
+        containers:
+          - name: postfix-imap
+            image: postfix_imap:latest
+            ports:
+              - containerPort: 10025
+              - containerPort: 10587
+              - containerPort: 10465
+            volumeMounts:
+              - mountPath: /var/spool/postfix
+                name: spool-postfix
+              - mountPath: /var/spool/mail
+                name: spool-mail
+              - mountPath: /var/log
+                name: log
+          - name: dovecot-imap
+            image: dovecot_imap:latest
+            ports:
+              - containerPort: 10025
+              - containerPort: 10587
+              - containerPort: 10465
+            volumeMounts:
+              - mountPath: /var/spool/postfix
+                name: spool-postfix
+              - mountPath: /var/spool/mail
+                name: spool-mail
+              - mountPath: /var/log
+                name: log
+        volumes:
+        #  - name: var
+        #    emptyDir:
+        #      medium: Memory
+          - name: spool-postfix
+            emptyDir: {}
+          - name: spool-mail
+            emptyDir: {}
+          - name: log
+            emptyDir: {}
