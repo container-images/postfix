@@ -54,6 +54,7 @@ objects:
         containers:
           - name: postfix-imap
             image: postfix_imap:latest
+            imagePullPolicy: Never
             ports:
               - containerPort: 10025
               - containerPort: 10587
@@ -67,6 +68,7 @@ objects:
                 name: log
           - name: dovecot-imap
             image: dovecot_imap:latest
+            imagePullPolicy: Never
             ports:
               - containerPort: 10025
               - containerPort: 10587
