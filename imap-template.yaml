@@ -29,10 +29,10 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: postfix-imap
+    name: imap-mail-server
   spec:
     selector:
-      name: postfix-imap
+      name: imap-mailserver
     strategy:
       type: Rolling
     triggers:
@@ -44,12 +44,20 @@ objects:
           from:
             kind: ImageStreamTag
             name: postfix_imap:latest
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - dovecot-imap
+          from:
+            kind: ImageStreamTag
+            name: dovecot_imap:latest
     replicas: 1
     template:
       metadata:
-        name: postfix-imap
+        name: imap-mailserver
         labels:
-          name: postfix-imap
+          name: imap-mailserver
       spec:
         containers:
           - name: postfix-imap
@@ -69,10 +77,6 @@ objects:
           - name: dovecot-imap
             image: dovecot_imap:latest
             imagePullPolicy: Never
-            ports:
-              - containerPort: 10025
-              - containerPort: 10587
-              - containerPort: 10465
             volumeMounts:
               - mountPath: /var/spool/postfix
                 name: spool-postfix
