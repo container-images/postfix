@@ -14,6 +14,14 @@ FROM fedora:24
 RUN dnf install -y --setopt=tsflags=nodocs postfix findutils && \
     dnf -y clean all
 
+LABEL summary="Postfix is a Mail Transport Agent (MTA)." \
+    version="1.0" \
+    description="Postfix is mail transfer agent that routes and delivers mail." \
+    io.k8s.description="Postfix is mail transfer agent that routes and delivers mail." \
+    io.k8s.diplay-name="Postfix 3.1" \
+    io.openshift.expose-services="10025:postfix" \
+    io.openshift.tags="postfix,mail,mta"
+
 MAINTAINER "Petr Hracek" <phracek@redhat.com>
 
 ENV POSTFIX_SMTP_PORT=10025

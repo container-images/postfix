@@ -3,8 +3,8 @@
 TLS=TLS
 IMAP=IMAP
 IMAGE_NAME = postfix
-IMAGE_NAME_TLS = postfix_`echo $TLS | tr '[:upper:]' '[:lower:]'`
-IMAGE_NAME_IMAP = postfix_`echo $IMAP | tr '[:upper:]' '[:lower:]'`
+IMAGE_NAME_TLS = postfix-`echo $(TLS) | tr '[:upper:]' '[:lower:]'`
+IMAGE_NAME_IMAP = postfix-`echo $(IMAP) | tr '[:upper:]' '[:lower:]'`
 DOCKER_TLS=Dockerfile.$(TLS)
 DOCKER_IMAP=Dockerfile.$(IMAP)
 
