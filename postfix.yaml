@@ -1,10 +1,10 @@
 document: modulemd
 version: 1
 data:
-    summary: A first try of a postfix module
-    description: An early-stage module of postfix - a postfix is a Mail Transport Agent (MTA)
+    summary: Postfix Mail Transport Agent
+    description: Postfix is a Mail Transport Agent (MTA).
     license:
-        module: [ MIT ]
+        module: [ IBM, GPLv2+ ]
     dependencies:
         buildrequires:
             base-runtime: master
@@ -18,20 +18,15 @@ data:
         default:
             rpms:
                 - postfix
-        utils:
-            rpms:
-                - postfix
-                - findutils
     api:
         rpms:
             - postfix
-            - findutils
     components:
         rpms:
             # TBD: more packages
             postfix:
                 rationale: Provides API for this module.
                 ref: f25
-            proftpd-utils:
-                rationale: Provides utilities like ftpasswd to manage users.
+            icu:
+                rationale: build dependency.
                 ref: f25
