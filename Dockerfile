@@ -1,38 +1,30 @@
-FROM fedora:24
+FROM registry.fedoraproject.org/fedora:26
 
-# Postfix image for OpenShift.
-#
-# Volumes:
-#  * /var/spool/postfix -
-#  * /var/spool/mail -
-#  * /var/log/postfix - Postfix log directory
-# Environment:
-#  * $MYHOSTNAME - Hostname for Postfix image
-# Additional packages
-#  * findutils are needed in case fedora:24 is loaded from docker.io.
+ENV POSTFIX_SMTP_PORT=10025  NAME=postfix ARCH=x86_64
+LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
+LABEL   summary="Postfix is a Mail Transport Agent (MTA)." \
+        name="$FGC/$NAME" \
+        version="0" \
+        release="1.$DISTTAG" \
+        architecture="$ARCH" \
+        com.redhat.component="$NAME" \
+        usage="docker run -it -e MYHOSTNAME=localhost -p 25:10025 -v $(pwd)/tmp/postfix:/var/spool/postfix -v $(pwd)/tmp/mail:/var/spool/mail postfix" \
+        help="Runs postfix, which listens on port 25. No dependencies. See Help File belowe for more detailes." \
+        description="Postfix is mail transfer agent that routes and delivers mail." \
+        io.k8s.description="Postfix is mail transfer agent that routes and delivers mail." \
+        io.k8s.diplay-name="Postfix 3.1" \
+        io.openshift.expose-services="10025:postfix" \
+        io.openshift.tags="postfix,mail,mta"
 
 RUN dnf install -y --setopt=tsflags=nodocs postfix findutils && \
     dnf -y clean all
 
-LABEL summary="Postfix is a Mail Transport Agent (MTA)." \
-    version="1.0" \
-    description="Postfix is mail transfer agent that routes and delivers mail." \
-    io.k8s.description="Postfix is mail transfer agent that routes and delivers mail." \
-    io.k8s.diplay-name="Postfix 3.1" \
-    io.openshift.expose-services="10025:postfix" \
-    io.openshift.tags="postfix,mail,mta"
-
-MAINTAINER "Petr Hracek" <phracek@redhat.com>
-
-ENV POSTFIX_SMTP_PORT=10025
-
 ADD files /files
+ADD README.md /
 
 RUN /files/postfix_config.sh
 
 EXPOSE 10025
-EXPOSE 10587
-EXPOSE 10465
 
 # Postfix UID based from Fedora
 # USER 89
