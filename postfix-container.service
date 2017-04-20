@@ -1,0 +1,10 @@
+[Unit]
+Description="The memcached is High Performance, Distributed Memory Object Cache."
+
+[Service]
+ExecStart=/usr/bin/docker run -t -i -v /etc/sysconfig/memcached:/etc/sysconfig/memcached:ro -p 11211:11211 --name memcached-container memcached
+ExecStop=/usr/bin/docker stop -t 2 memcached-container
+ExecStopPost=/usr/bin/docker rm -f memcached-container
+
+[Install]
+WantedBy=multi-user.target
