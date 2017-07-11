@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:26
+FROM modularitycontainers/boltron-preview:latest
 
 ENV POSTFIX_SMTP_PORT=10025  NAME=postfix ARCH=x86_64
 LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
@@ -16,7 +16,8 @@ LABEL   summary="Postfix is a Mail Transport Agent (MTA)." \
         io.openshift.expose-services="10025:postfix" \
         io.openshift.tags="postfix,mail,mta"
 
-RUN dnf install -y --setopt=tsflags=nodocs postfix findutils && \
+RUN dnf install -y --rpm --nodocs findutils && \
+    dnf install -y --nodocs postfix && \
     dnf -y clean all
 
 ADD files /files
