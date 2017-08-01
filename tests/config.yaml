@@ -1,0 +1,21 @@
+document: modularity-testing
+version: 1
+name: postfix
+modulemd-url: http://raw.githubusercontent.com/container-images/postfix/master/postfix.yaml
+service:
+    port: 25
+packages:
+    rpms:
+        - postfix
+testdependecies:
+    rpms:
+        - nc
+module:
+    docker:
+        start: "docker run -e MYHOSTNAME=localhost -p 25:10025"
+        source: https://github.com/container-images/postfix.git
+        container: docker.io/modularitycontainers/postfix
+    rpm:
+        start: systemctl start postfix
+        stop: systemctl stop postfix
+        status: systemctl status postfix

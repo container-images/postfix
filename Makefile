@@ -29,5 +29,5 @@ run_tls: build_tls
 run_imap: build_imap
 	docker run -p 25:25 -p 143:10143 -e MYHOSTNAME=localhost $(IMAGE_NAME_IMAP)
 
-test:
-	run_test.sh
+test: build
+	cd tests; MODULE=docker MODULEMD=$(MODULEMDURL) URL="docker=$(IMAGE_NAME)" make all
