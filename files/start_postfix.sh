@@ -17,7 +17,6 @@ postfix start
 
 while true; do
     state=$(script -c 'postfix status' | grep postfix/postfix-script)
-    echo $state
     if [[ "$state" != "${state/is running/}" ]]; then
         PID=${state//[^0-9]/}
         if [[ -z $PID ]]; then
