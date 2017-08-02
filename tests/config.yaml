@@ -3,7 +3,7 @@ version: 1
 name: postfix
 modulemd-url: http://raw.githubusercontent.com/container-images/postfix/master/postfix.yaml
 service:
-    port: 25
+    port: 10025
 packages:
     rpms:
         - postfix
@@ -12,9 +12,9 @@ testdependecies:
         - nc
 module:
     docker:
-        start: "docker run -e MYHOSTNAME=localhost -p 25:10025"
+        start: "docker run -e MYHOSTNAME=localhost -p 10025:10025"
         source: https://github.com/container-images/postfix.git
-        container: docker.io/modularitycontainers/postfix
+        container: postfix
     rpm:
         start: systemctl start postfix
         stop: systemctl stop postfix
