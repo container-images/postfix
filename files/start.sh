@@ -1,11 +1,16 @@
 #!/bin/bash
 
 # Wait before postfix is really started.
+
+function get_state {
+    echo $(script -c 'postfix status' | grep postfix/postfix-script)
+}
+
 postfix start
+echo $(get_state)
 
 while true; do
-    state=$(script -c 'postfix status' | grep postfix/postfix-script)
-    echo $state
+    state=$(get_state)
     if [[ "$state" != "${state/is running/}" ]]; then
         PID=${state//[^0-9]/}
         if [[ -z $PID ]]; then
@@ -20,3 +25,5 @@ while true; do
         break
     fi
 done
+
+
