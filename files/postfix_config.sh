@@ -13,14 +13,25 @@ function modify_main_cf() {
     postconf -e mydestination=${MYHOSTNAME}
 }
 
-
+if [[ -f "/var/run/nologin" ]]; then
+    rm -f /var/run/nologin
+fi
 
 if [[ -z ${MYHOSTNAME} ]]; then
     MYHOSTNAME=localhost
 fi
 
+cat >> /etc/postfix/sasl/smptd.conf <<EOF
+pwcheck_method: auxprop
+auxprop_plugin: sasldb
+mech_list: PLAIN LOGIN CRAM-MD5 DIGEST-MD5 NTLM
+EOF
+
 source /files/common.sh
 
+if [[ ! -d "/etc/postfix/certs" ]]; then
+    mkdir -p /etc/postfix/certs
+fi
 modify_etc_services
 modify_main_cf
 modify_master_cf
