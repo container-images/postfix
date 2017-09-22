@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+script:
+  - hooks/pre_build
+  # Docker Hub hack
+  - sudo cp -av ./Dockerfile.template ./Dockerfile
+  - make DG="docker run -v $(pwd):/var/dgdir slavek/distgen" GOMD2MAN="docker run -v $(pwd):/go/src/github.com/cpuguy83/go-md2man cpuguy83/go-md2man" build
+notifications:
+    email: false
