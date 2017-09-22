@@ -3,6 +3,7 @@
 VARIANT := upstream
 DISTRO = fedora-26-x86_64
 DG = /usr/bin/dg
+GOMD2MAN = /usr/bin/go-md2man
 
 DG_EXEC = ${DG} --max-passes 25 --distro ${DISTRO}.yaml --spec specs/configuration.yml --multispec specs/multispec.yml --multispec-selector variant=$(VARIANT)
 DISTRO_ID = $(shell ${DG_EXEC} --template "{{ config.os.id }}")
@@ -27,7 +28,7 @@ run_imap:
 
 doc: dg
 	mkdir -p ./root/
-	go-md2man -in=help/help.md.rendered -out=./root/help.1
+	${GOMD2MAN} -in=help/help.md.rendered -out=./root/help.1
 
 upstream:
 	make -e doc VARIANT="upstream"
