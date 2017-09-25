@@ -5,7 +5,7 @@ ENV POSTFIX_SMTP_PORT={{ spec.expose }} \
     POSTFIX_IMAP_PORT={{ spec.expose_imap }} \
     NAME={{ spec.envvars.name }} \
     ARCH={{ spec.envvars.arch }}
-LABEL MAINTAINER {{ spec.maintainer }}
+LABEL maintainer {{ spec.maintainer }}
 LABEL   summary="{{ spec.short_description }}" \
         name="$FGC/$NAME" \
         version="0" \
