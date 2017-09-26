@@ -1,0 +1,57 @@
+# postfix
+{{ spec.short_description }}
+
+## How to build the container on 25 port
+
+```docker build --tag={{ spec.image_repository }} .```
+
+## How to use the container over standard 25 port
+
+Command for running postfix docker container:
+
+```
+docker run -it -e MYHOSTNAME=localhost \
+    -p 25:10025\
+    -v /var/spool/postfix:/var/spool/postfix \
+    -v /var/spool/mail:/var/spool/mail {{ spec.envvars.name }}
+    -d {{ spec.image_repository }}
+```
+
+## How to use the container over standard TLS
+
+Command for running postfix docker container:
+```
+docker run -it -e ENABLE_TLS -e DEBUG_MODE=yes -e MYHOSTNAME=localhost \
+    -p 25:10025 \
+    {{ spec.envvars.name }} -d {{ spec.image_repository }}
+```
+
+Environment variable DEBUG_MODE is used for debugging proposes
+from Postfix and dovecot point of views.
+
+## How to use the container with IMAP.
+
+Command for running postfix docker container:
+```
+POSTFIX_CERTS_PATH=/etc/postfix/certs
+docker run -it -e ENABLE_IMAP -e MYHOSTNAME=localhost
+    -e DEBUG_MODE \
+    -p 587:10587 \
+    -v ${POSTFIX_CERTS_PATH}:/etc/postfix/certs \
+    {{ spec.envvars.name }} -d {{ spec.image_repository }}
+```
+
+Environment variable DEBUG_MODE is used for debugging proposes
+from Postfix and dovecot point of views.
+
+# How to generate self signed SSL key for postfix
+
+In case, you enable TLS support for postfix, you need to have certificates for postfix service.
+
+For more information about Postfix TLS support see `http://www.postfix.org/TLS_README.html`
+
+The page `POSTFIX_CERTS_GENERATION.md` will help you with generation self signed certificate used by postfix.
+
+## How to test the postfix mail server
+
+See `help/help.md` file.

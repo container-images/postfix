@@ -8,6 +8,8 @@ POSTFIX_CERTS_PATH := /etc/postfix/certs
 USER ?= user
 PASSWD ?= passwd
 DOCKERFILE_RENDERED = Dockerfile.rendered
+README_TEMPLATE = README.md.template
+README_RENDERED = README.md
 
 DG_EXEC = ${DG} --max-passes 25 --distro ${DISTRO}.yaml --spec specs/configuration.yml --multispec specs/multispec.yml --multispec-selector variant=$(VARIANT)
 DISTRO_ID = $(shell ${DG_EXEC} --template "{{ config.os.id }}")
@@ -44,6 +46,7 @@ downstream:
 
 dg:
 	${DG_EXEC} --template Dockerfile --output $(DOCKERFILE_RENDERED)
+	${DG_EXEC} --template $(README_TEMPLATE) --output $(README_RENDERED)
 	${DG_EXEC} --template help/help.md --output help/help.md.rendered
 
 test: build
