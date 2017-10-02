@@ -37,25 +37,9 @@ An optional company name []:
 
 ```
 
-Now let's sign self-signed certificate
-```bash
-$ openssl req -x509 -days 365 -nodes -newkey rsa:2048 -keyout localhost.key -out localhost.crt
-Signature ok
-subject=C = XX, L = Default City, O = Default Company Ltd, CN = localhost
-Getting Private key
-Enter pass phrase for localhost.key:
-
+Then sign the certificate signing request with the private key localhost.key:
 ```
-
-Let's remove password from private certificate.
-We do this, so we don't have to enter a password when you restart postfix.
-```bash
-$ openssl rsa -in localhost.key -out localhost.key.nopass
-$ mv localhost.key.nopass localhost.key
+openssl x509 -req -days 365 -in localhost.csr -signkey localhost.key -out localhost.crt
 ```
-
-
-```bash
-$ chmod 600 localhost.key
-$ chmod 600 cakey.pem
-```
+Instead of your own private key `localhost.key`,
+you can sign your certificate by some certificate authority.
