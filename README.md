@@ -26,8 +26,8 @@ docker run -it -e ENABLE_TLS -e DEBUG_MODE=yes -e MYHOSTNAME=localhost \
     postfix -d docker.io/modularitycontainers/postfix
 ```
 
-Environment variable DEBUG_MODE is used for debugging proposes
-from Postfix and dovecot point of views.
+Environment variable DEBUG_MODE is used for debugging purposes
+from postfix point of view.
 
 ## How to use the container with IMAP.
 
@@ -40,11 +40,10 @@ docker run -it -e ENABLE_IMAP -e MYHOSTNAME=localhost
     -v ${POSTFIX_CERTS_PATH}:/etc/postfix/certs \
     postfix -d docker.io/modularitycontainers/postfix
 ```
+POSTFIX_CERTS_PATH contains certificates used by postfix, like self signed certificate, keys, etc.
+Environment variable DEBUG_MODE is used for debugging purposes from postfix.
 
-Environment variable DEBUG_MODE is used for debugging proposes
-from Postfix and dovecot point of views.
-
-# How to generate self signed SSL key for postfix
+# How to generate self signed SSL certificate for postfix
 
 In case, you enable TLS support for postfix, you need to have certificates for postfix service.
 

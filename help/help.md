@@ -9,11 +9,11 @@
 {{ spec.description }}
 
 # USAGE
-To get the memcached container image on your local system, run the following:
+To get the {{ spec.envvars.name }} container image on your local system, run the following:
 
     docker pull hub.docker.io/modularitycontainers/{{ spec.envvars.name }}
 
-Commands for testing Postfix docker container:
+Commands for testing {{ spec.envvars.name }} docker container:
 
 ```$ telnet localhost 25```
 
@@ -33,27 +33,25 @@ Docker
 .
 ```
 
-## How to test the postfix mail server with TLS
+## How to test the {{ spec.envvars.name }} mail server with TLS
 
-Command for testing Postfix docker container with
+Command for testing {{ spec.envvars.name }} docker container with
 enabled TLS is ```openssl```.
 
-Telnet has not to be used because of all
-communication is encrypted from the beginning.
+Telnet can not be used because of communication is encrypted.
 
 ```
 $ openssl s_client -starttls smtp -crlf -connect localhost:25
 ```
 
-## How to test the postfix with IMAP enabled
+## How to test the {{ spec.envvars.name }} with IMAP enabled
 
-Command for testing Postfix docker container with
+Command for testing {{ spec.envvars.name }} docker container
 dovecot is ```openssl```.
 
-Telnet has not to be used because of all
-communication is encrypted from the beginning.
+Telnet can not be used because of communication is encrypted.
 
-Testing postfix service with ```openssl```
+Testing {{ spec.envvars.name }} service with ```openssl```
 
 ```
 $ openssl s_client -debug -starttls smtp -crlf -connect localhost:587
@@ -119,13 +117,13 @@ during initialization be passing `-e VAR=VALUE` to the Docker run command.
 Lists of security-related attributes that are opened to the host.
 
 -p 25:10025
-    Opens container port 10025 and maps it to the same port on the host. The port is used by SMTP protocol for outgoing mail usage.
+    Opens container port 10025 and maps it to the port 25 on the host. The port is used by SMTP protocol for outgoing mail usage.
 
 -p 143:10143
-    Opens container port 10143 and maps it to the same port on the host. The port is used by IMAP incomming mail. For plain text/encrypted session 
+    Opens container port 10143 and maps it to the port 143 on the host. The port is used by IMAP incomming mail. For plain text/encrypted session
 
 -p 587:10587
-    Opens container port 10587 and maps it to the same port on the host. The port is used by submission protocol for outgoing mail. 
+    Opens container port 10587 and maps it to the port 587 on the host. The port is used by submission protocol for outgoing mail.
 
 # SEE ALSO
 Postfix page
