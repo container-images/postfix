@@ -1,4 +1,4 @@
-# Steps for generation self-signed SSL certificate for postfix
+# Steps for generating self-signed SSL certificate for postfix
 Let's create a self-signed SSL certificate in cert directory.
 In order to do it let's create `certs` directory.
 The `certs` directory supposes to be in /etc/postfix directory.

@@ -1,7 +1,7 @@
 # postfix
 Postfix is a Mail Transport Agent (MTA).
 
-## How to build the container on 25 port
+## How to build the container
 
 ```docker build --tag=docker.io/modularitycontainers/postfix .```
 
@@ -21,7 +21,7 @@ docker run -it -e MYHOSTNAME=localhost \
 
 Command for running postfix docker container:
 ```
-docker run -it -e ENABLE_TLS -e DEBUG_MODE=yes -e MYHOSTNAME=localhost \
+docker run -it -e ENABLE_TLS -e DEBUG_MODE -e MYHOSTNAME=localhost \
     -p 25:10025 \
     postfix -d docker.io/modularitycontainers/postfix
 ```
@@ -41,6 +41,16 @@ docker run -it -e ENABLE_IMAP -e MYHOSTNAME=localhost
     postfix -d docker.io/modularitycontainers/postfix
 ```
 POSTFIX_CERTS_PATH contains certificates used by postfix, like self signed certificate, keys, etc.
+
+The example tree generated for localhost certificate can look like:
+```bash
+$ tree /etc/postfix/certs/
+/etc/postfix/certs/
+├── localhost.crt
+├── localhost.csr
+└── localhost.key
+
+```
 Environment variable DEBUG_MODE is used for debugging purposes from postfix.
 
 # How to generate self signed SSL certificate for postfix
@@ -49,7 +59,7 @@ In case, you enable TLS support for postfix, you need to have certificates for p
 
 For more information about Postfix TLS support see `http://www.postfix.org/TLS_README.html`
 
-The page `POSTFIX_CERTS_GENERATION.md` will help you with generation self signed certificate used by postfix.
+The page [POSTFIX_CERTS_GENERATION.md](/POSTFIX_CERTS_GENERATION.md) will help you with generation self signed certificate used by postfix.
 
 ## How to test the postfix mail server
 

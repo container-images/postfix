@@ -1,7 +1,7 @@
 # postfix
 {{ spec.short_description }}
 
-## How to build the container on 25 port
+## How to build the container
 
 ```docker build --tag={{ spec.image_repository }} .```
 
@@ -21,7 +21,7 @@ docker run -it -e MYHOSTNAME=localhost \
 
 Command for running {{ spec.envvars.name }} docker container:
 ```
-docker run -it -e ENABLE_TLS -e DEBUG_MODE=yes -e MYHOSTNAME=localhost \
+docker run -it -e ENABLE_TLS -e DEBUG_MODE -e MYHOSTNAME=localhost \
     -p 25:10025 \
     {{ spec.envvars.name }} -d {{ spec.image_repository }}
 ```
@@ -49,7 +49,7 @@ In case, you enable TLS support for {{ spec.envvars.name }}, you need to have ce
 
 For more information about Postfix TLS support see `http://www.postfix.org/TLS_README.html`
 
-The page `POSTFIX_CERTS_GENERATION.md` will help you with generation self signed certificate used by {{ spec.envvars.name }}.
+The page [POSTFIX_CERTS_GENERATION.md](/POSTFIX_CERTS_GENERATION.md) will help you with generation self signed certificate used by {{ spec.envvars.name }}.
 
 ## How to test the postfix mail server
 

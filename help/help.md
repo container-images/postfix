@@ -11,7 +11,7 @@
 # USAGE
 To get the {{ spec.envvars.name }} container image on your local system, run the following:
 
-    docker pull hub.docker.io/modularitycontainers/{{ spec.envvars.name }}
+    docker pull {{ spec.image_repository }}
 
 Commands for testing {{ spec.envvars.name }} docker container:
 
@@ -29,7 +29,6 @@ Subject: My testing docker container image
 
 Hi, Testing message
 regards
-Docker
 .
 ```
 
@@ -46,8 +45,7 @@ $ openssl s_client -starttls smtp -crlf -connect localhost:25
 
 ## How to test the {{ spec.envvars.name }} with IMAP enabled
 
-Command for testing {{ spec.envvars.name }} docker container
-dovecot is ```openssl```.
+Command for testing {{ spec.envvars.name }} docker container is ```openssl```.
 
 Telnet can not be used because of communication is encrypted.
 
