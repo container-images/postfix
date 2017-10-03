@@ -62,6 +62,19 @@ For more information about Postfix TLS support see `http://www.postfix.org/TLS_R
 
 The page [POSTFIX_CERTS_GENERATION.md](/POSTFIX_CERTS_GENERATION.md) will help you with generation self signed certificate used by postfix.
 
+## S2I extensibility
+You can configure this container to adhere your needs using [Source-to-Image](https://github.com/openshift/source-to-image) and shell scripts. To create a new Docker image named  `postfix-app`, that will be configured by your needs, just setup this directory: `./app-name/postfix-pre-init` that will contain `*.sh` scripts that will be executed right before postfix will start, so you can use `postconf` and other tools to configure postfix. Then just excute the s2i build:
+```
+s2i build file://path/to/app-name docker.io/modularitycontainers/postfix postfix-app
+```
+You can execute such image as you would non-s2i one:
+```
+docker run -it -e MYHOSTNAME=localhost \
+    -p 25:10025\
+    -v /var/spool/postfix:/var/spool/postfix \
+    -v /var/spool/mail:/var/spool/mail postfix
+    -d postfix-app
+```
 ## How to test the postfix mail server
 
 See `help/help.md` file.
