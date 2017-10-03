@@ -63,6 +63,7 @@ function modify_main_cf_imap() {
         postconf -e mydestination=${MYHOSTNAME}
         postconf -e debug_peer_level=3
         postconf -e debug_peer_list=${MYHOSTNAME}
+    fi
 }
 
 function modify_etc_services() {

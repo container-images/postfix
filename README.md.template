@@ -41,6 +41,17 @@ docker run -it -e ENABLE_IMAP -e MYHOSTNAME=localhost
     {{ spec.envvars.name }} -d {{ spec.image_repository }}
 ```
 POSTFIX_CERTS_PATH contains certificates used by {{ spec.envvars.name }}, like self signed certificate, keys, etc.
+
+The example tree generated for localhost certificate can look like:
+```bash
+$ tree /etc/postfix/certs/
+/etc/postfix/certs/
+├── localhost.crt
+├── localhost.csr
+└── localhost.key
+
+```
+
 Environment variable DEBUG_MODE is used for debugging purposes from {{ spec.envvars.name }}.
 
 # How to generate self signed SSL certificate for {{ spec.envvars.name }}

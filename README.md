@@ -51,6 +51,7 @@ $ tree /etc/postfix/certs/
 └── localhost.key
 
 ```
+
 Environment variable DEBUG_MODE is used for debugging purposes from postfix.
 
 # How to generate self signed SSL certificate for postfix
