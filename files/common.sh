@@ -103,3 +103,15 @@ function user_generation() {
     done < /tmp/passwd
     chown postfix.sasl /etc/sasldb2
 }
+
+#this function sources extending files
+function process_extending_files() {
+  local scripts_dir 
+  scripts_dir=$1
+  while read filename ; do
+    echo "=> sourcing $filename ..."
+    if [ -f $scripts_dir/$filename ]; then
+      source $scripts_dir/$filename
+    fi
+  done <<<"$(find "$scripts_dir" -maxdepth 1 -type f -name "*.sh" -printf "%f\n" | sort -u)"
+}
