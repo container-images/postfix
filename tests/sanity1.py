@@ -54,5 +54,6 @@ class SanityCheck1(module_framework.AvocadoTest):
         self.start()
         self.run("postconf -n")
 
+
 if __name__ == '__main__':
     main()

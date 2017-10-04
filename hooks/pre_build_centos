@@ -1,0 +1,8 @@
+#!/bin/bash -ex
+
+DG_BINARY_ARGS="docker run -v /run/docker.sock:/run/docker.sock -v $(pwd):/var/dgdir slavek/distgen"
+docker pull $image
+
+mkdir -p root/
+make DG="$DG_BINARY_ARGS" VARIANT=centos DISTRO=centos-7-x86_64 doc
+sudo chown -R $(id -u) .

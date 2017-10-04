@@ -1,0 +1,11 @@
+#!/bin/bash -ex
+
+mkdir -p root/
+make DG="docker run -v $(pwd):/var/dgdir slavek/distgen" GOMD2MAN="docker run -v $(pwd):/go/src/github.com/cpuguy83/go-md2man cpuguy83/go-md2man" doc
+# A hack: we need Dockerhub to see a `Dockerfile` when cloning,
+# but `Dockerfile` is actually a template and `make` will output
+# `Dockerfile.rendered`. To make sure the build doesn't use
+# the template, we replace it with the rendered `Dockerfile`
+# after rendering.
+sudo chown -R $(id -u) .
+cp -a Dockerfile Dockerfile.template

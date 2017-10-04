@@ -1,36 +1,41 @@
-FROM modularitycontainers/boltron-preview:latest
+FROM {{ config.docker.registry }}/{{ config.docker.from }}
 
-ENV POSTFIX_SMTP_PORT=10025  NAME=postfix ARCH=x86_64
-LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
-LABEL   summary="Postfix is a Mail Transport Agent (MTA)." \
+ENV POSTFIX_SMTP_PORT={{ spec.expose }} \
+    POSTFIX_TLS_PORT={{ spec.expose_tls }} \
+    POSTFIX_IMAP_PORT={{ spec.expose_imap }} \
+    NAME={{ spec.envvars.name }} \
+    ARCH={{ spec.envvars.arch }}
+LABEL maintainer {{ spec.maintainer }}
+LABEL   summary="{{ spec.short_description }}" \
         name="$FGC/$NAME" \
         version="0" \
         release="1.$DISTTAG" \
         architecture="$ARCH" \
         com.redhat.component="$NAME" \
-        usage="docker run -it -e MYHOSTNAME=localhost -p 25:10025 -v $(pwd)/tmp/postfix:/var/spool/postfix -v $(pwd)/tmp/mail:/var/spool/mail postfix" \
+        usage="docker run -it -e MYHOSTNAME=localhost -p 25:{{ spec.expose }} -v /var/spool/postfix:/var/spool/postfix -v /var/spool/mail:/var/spool/mail {{ spec.envvars.name }}" \
         help="Runs postfix, which listens on port 25. No dependencies. See Help File belowe for more detailes." \
-        description="Postfix is mail transfer agent that routes and delivers mail." \
-        io.k8s.description="Postfix is mail transfer agent that routes and delivers mail." \
+        description="{{ spec.description }}" \
+        io.k8s.description="{{ spec.description }}" \
         io.k8s.diplay-name="Postfix 3.1" \
-        io.openshift.expose-services="10025:postfix" \
-        io.openshift.tags="postfix,mail,mta"
+        io.openshift.expose-services="{{ spec.expose }}:{{ spec.envvars.name }}" \
+        io.openshift.tags="{{ spec.envvars.name }},mail,mta"
 
-RUN dnf install -y --rpm --nodocs findutils && \
-    dnf install -y --nodocs postfix && \
-    dnf -y clean all
+RUN {{ commands.pkginstaller.install(["findutils", "cyrus-sasl", "cyrus-sasl-plain", "openssl-libs", "postfix"]) }} && \
+    {{ commands.pkginstaller.cleancache() }}
 
 ADD files /files
 ADD README.md /
 
 RUN /files/postfix_config.sh
 
-EXPOSE 10025
+EXPOSE {{ spec.expose }} {{ spec.expose_tls }} {{ spec.expose_imap }}
 
 # Postfix UID based from Fedora
 # USER 89
 
-VOLUME ['/var/spool/postfix']
-VOLUME ['/var/spool/mail']
+VOLUME ["/var/spool/postfix"]
+VOLUME ["/var/spool/mail"]
+VOLUME ["/var/log"]
+VOLUME ["/var/mail"]
 
 CMD ["/files/start.sh"]

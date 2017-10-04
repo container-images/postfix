@@ -1,0 +1,14 @@
+maintainer: Petr Hracek <phracek@redhat.com>
+
+expose: 10025
+expose_tls: 10143
+expose_imap: 10587
+
+short_description: Postfix is a Mail Transport Agent (MTA).
+description: Postfix is mail transfer agent that routes and delivers mail.
+
+envvars:
+  name: postfix
+  version: 0
+  release: 1
+  arch: x86_64

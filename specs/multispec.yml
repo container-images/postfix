@@ -1,0 +1,21 @@
+version: 1
+
+specs:
+  distroinfo:
+    fedora:
+      distros:
+        - fedora-26-x86_64
+      vendor: "Fedora Project"
+  variant:
+    upstream:
+      image_repository: "docker.io/modularitycontainers/postfix"
+      readme_description: |-
+        [![Build Status](https://travis-ci.org/container-images/postfix.svg?branch=master)](https://travis-ci.org/container-images/postfix)
+
+        There is a detailed information about this image available in its [help
+        page](https://github.com/container-images/postfix/blob/master/help/help.md).
+    downstream:
+      image_repository: "candidate-registry.fedoraproject.org/f{{ config.os.version }}/postfix"
+      readme_description: |-
+        There is a detailed information about this image available in its [help
+        page](https://src.fedoraproject.org/container/postfix/blob/master/f/root/help.1).
