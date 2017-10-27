@@ -49,10 +49,10 @@ class SanityCheck1(module_framework.AvocadoTest):
         self.run("postconf -n myhostname | grep mail.localhost")
         self.run("postconf -n mydestination | grep localhost")
 
-    def testPostfixSkipped(self):
-        module_framework.skipTestIf("postfix" not in self.getActualProfile())
+    def testPostconfWorks(self):
         self.start()
-        self.run("postconf -n")
+        command = self.run("postconf -n")
+        self.assertTrue(command.stdout != "")
 
 
 if __name__ == '__main__':
