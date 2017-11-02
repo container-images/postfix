@@ -4,7 +4,8 @@ ENV POSTFIX_SMTP_PORT={{ spec.expose }} \
     POSTFIX_TLS_PORT={{ spec.expose_tls }} \
     POSTFIX_IMAP_PORT={{ spec.expose_imap }} \
     NAME={{ spec.envvars.name }} \
-    ARCH={{ spec.envvars.arch }}
+    ARCH={{ spec.envvars.arch }} \
+    APP_DATA=/opt/app-root
 LABEL maintainer {{ spec.maintainer }}
 LABEL   summary="{{ spec.short_description }}" \
         name="$FGC/$NAME" \
@@ -18,13 +19,21 @@ LABEL   summary="{{ spec.short_description }}" \
         io.k8s.description="{{ spec.description }}" \
         io.k8s.diplay-name="Postfix 3.1" \
         io.openshift.expose-services="{{ spec.expose }}:{{ spec.envvars.name }}" \
-        io.openshift.tags="{{ spec.envvars.name }},mail,mta"
+        io.openshift.tags="{{ spec.envvars.name }},mail,mta" \
+        io.openshift.s2i.scripts-url="image:///usr/local/s2i"
 
 RUN {{ commands.pkginstaller.install(["findutils", "cyrus-sasl", "cyrus-sasl-plain", "openssl-libs", "postfix"]) }} && \
     {{ commands.pkginstaller.cleancache() }}
 
 ADD files /files
 ADD README.md /
+
+
+COPY ./s2i/bin/ /usr/local/s2i
+
+RUN mkdir -p ${APP_DATA}/src
+
+WORKDIR ${APP_DATA}/src
 
 RUN /files/postfix_config.sh
 
@@ -38,4 +47,4 @@ VOLUME ["/var/spool/mail"]
 VOLUME ["/var/log"]
 VOLUME ["/var/mail"]
 
-CMD ["/files/start.sh"]
+CMD ["/usr/local/s2i/run"]

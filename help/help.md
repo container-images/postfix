@@ -13,6 +13,10 @@ To get the {{ spec.envvars.name }} container image on your local system, run the
 
     docker pull {{ spec.image_repository }}
 
+You can further configure this image using Source-to-Image. The application only needs to contain a postfix-pre-init directory with your `.sh` scripts that will be executed right before postfix starts. You can build this image named `postfix-app` by using this commnad:
+
+    s2i build file://path/to/app-name {{ spec.image_repository }} postfix-app
+
 Commands for testing {{ spec.envvars.name }} docker container:
 
 ```$ telnet localhost 25```

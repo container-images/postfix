@@ -24,6 +24,13 @@ if [[ ! -z "${DEBUG_MODE}" ]]; then
         syslog-ng
     fi
 fi
+
+#execute pre-init scripts if this is an s2i executed 
+if [[ -d "${APP_DATA}/src/postfix-pre-init" ]]; then
+    echo "S2I is enabled, sourcing pre-init scripts..."
+    process_extending_files ${APP_DATA}/src/postfix-pre-init
+fi
+
 postfix start
 echo $(get_state)
 
@@ -43,5 +50,3 @@ while true; do
         break
     fi
 done
-
-

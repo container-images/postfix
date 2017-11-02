@@ -62,6 +62,32 @@ For more information about Postfix TLS support see `http://www.postfix.org/TLS_R
 
 The page [POSTFIX_CERTS_GENERATION.md](/POSTFIX_CERTS_GENERATION.md) will help you with generation self signed certificate used by postfix.
 
+## S2I extensibility
+You can configure this container to adhere your needs using [Source-to-Image](https://github.com/openshift/source-to-image) and shell scripts. To create a new Docker image named  `postfix-app`, that will be configured by your needs, just setup this directory: `./app-name/postfix-pre-init` that will contain `*.sh` scripts that will be executed right before postfix will start, so you can use `postconf` and other tools to configure postfix. Then just excute the s2i build:
+```
+s2i build file://path/to/app-name docker.io/modularitycontainers/postfix postfix-app
+```
+You can execute such image as you would non-s2i one:
+```
+docker run -it -e MYHOSTNAME=localhost \
+    -p 25:10025\
+    -v /var/spool/postfix:/var/spool/postfix \
+    -v /var/spool/mail:/var/spool/mail \
+    -d postfix-app
+```
+In this repo you can find an example for you to try this out. It implements an example of a null client configuration, as described [here](http://www.postfix.org/STANDARD_CONFIGURATION_README.html#null_client). All it does is display the configuration, change it according to example and display it again. Assuming your working directory is this repository, just run:
+
+```
+s2i build file://$(pwd)/example docker.io/modularitycontainers/postfix postfix-example
+```
+And then run it:
+```
+docker run -it \
+    -p 25:10025\
+    -v /var/spool/postfix:/var/spool/postfix \
+    -v /var/spool/mail:/var/spool/mail \
+    -d postfix-example
+```
 ## How to test the postfix mail server
 
 See `help/help.md` file.
