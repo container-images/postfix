@@ -72,7 +72,7 @@ You can execute such image as you would non-s2i one:
 docker run -it -e MYHOSTNAME=localhost \
     -p 25:10025\
     -v /var/spool/postfix:/var/spool/postfix \
-    -v /var/spool/mail:/var/spool/mail postfix
+    -v /var/spool/mail:/var/spool/mail \
     -d postfix-app
 ```
 In this repo you can find an example for you to try this out. It implements an example of a null client configuration, as described [here](http://www.postfix.org/STANDARD_CONFIGURATION_README.html#null_client). All it does is display the configuration, change it according to example and display it again. Assuming your working directory is this repository, just run:
@@ -85,7 +85,7 @@ And then run it:
 docker run -it \
     -p 25:10025\
     -v /var/spool/postfix:/var/spool/postfix \
-    -v /var/spool/mail:/var/spool/mail postfix
+    -v /var/spool/mail:/var/spool/mail \
     -d postfix-example
 ```
 ## How to test the postfix mail server
