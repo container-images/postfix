@@ -3,7 +3,17 @@
 
 ## How to build the container
 
-```docker build --tag={{ spec.image_repository }} .```
+Command for building container:
+
+```
+make build
+```
+
+To change `BASE` image, add the `DISTRO` argument into the build command, like:
+
+```
+make build DISTRO=fedora-28-x86_64
+```
 
 ## How to use the container over standard 25 port
 
