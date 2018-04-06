@@ -8,6 +8,7 @@ POSTFIX_CERTS_PATH := /etc/postfix/certs
 USER ?= user
 PASSWD ?= passwd
 DOCKERFILE_RENDERED = Dockerfile.rendered
+DOCKERFILE_TEMPLATE = Dockerfile.template
 README_TEMPLATE = README.md.template
 README_RENDERED = README.md
 
@@ -45,7 +46,7 @@ downstream:
 	make VARIANT="downstream"
 
 dg:
-	${DG_EXEC} --template Dockerfile --output $(DOCKERFILE_RENDERED)
+	${DG_EXEC} --template $(DOCKERFILE_TEMPLATE) --output $(DOCKERFILE_RENDERED)
 	${DG_EXEC} --template $(README_TEMPLATE) --output $(README_RENDERED)
 	${DG_EXEC} --template help/help.md --output help/help.md.rendered
 
@@ -55,6 +56,6 @@ test: build
 	# for testing postfix with TLS
 
 clean:
-	rm -f Dockerfile.*
+	rm -f $(DOCKERFILE_RENDERED)
 	rm -f help/help.md.*
 	rm -r ./root
