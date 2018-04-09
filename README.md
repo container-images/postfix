@@ -1,6 +1,9 @@
 # postfix
 Postfix is a Mail Transport Agent (MTA).
 
+This container image utilizes [distgen](https://github.com/devexp-db/distgen) for Dockerfile templating.
+Please make sure that you have the tool installed before trying to build this image.
+
 ## How to build the container
 
 Command for building container:
