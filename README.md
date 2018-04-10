@@ -1,9 +1,22 @@
 # postfix
 Postfix is a Mail Transport Agent (MTA).
 
+This container image utilizes [distgen](https://github.com/devexp-db/distgen) for Dockerfile templating.
+Please make sure that you have the tool installed before trying to build this image.
+
 ## How to build the container
 
-```docker build --tag=docker.io/modularitycontainers/postfix .```
+Command for building container:
+
+```
+make build
+```
+
+To change `BASE` image, add the `DISTRO` argument into the build command, like:
+
+```
+make build DISTRO=fedora-28-x86_64
+```
 
 ## How to use the container over standard 25 port
 
